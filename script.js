@@ -17,8 +17,12 @@ const maxHeight = window.innerHeight;
 const rinkWidthFeet = 85;
 const rinkLengthFeet = 200;
 const cornerRadiusFeet = 28;
+const highResFactor = 2;            // NOTE: 10 looks better zoomed-in
+
+const scaleWidth = window.innerWidth / rinkWidthFeet;
+const scaleHeight = window.innerHeight / rinkLengthFeet;
 // max scale that fits
-const scale = Math.min(maxWidth / rinkWidthFeet, maxHeight / rinkLengthFeet);
+const scale = Math.min(maxWidth / rinkWidthFeet, maxHeight / rinkLengthFeet) * highResFactor;
 
 // math for goal line from curve
 const goalLineFromCurveFeet = 28 - Math.sqrt(Math.pow(28,2) - Math.pow(17,2));
@@ -42,6 +46,14 @@ const oneInch = scale / 12;
 // set canvas size
 canvas.width = rinkWidth;
 canvas.height = rinkLength;
+
+// calculate css dimensions to maintain aspect ratio
+const cssWidth = rinkWidthFeet * Math.min(scaleWidth, scaleHeight);
+const cssHeight = rinkLengthFeet * Math.min(scaleWidth, scaleHeight);
+
+// scale down to fit in viewport
+canvas.style.width = `${cssWidth}px`;
+canvas.style.height = `${cssHeight}px`;
 
 // draw ice (background)
 ctx.beginPath();
