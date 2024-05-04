@@ -20,6 +20,7 @@ const rinkWidth = rinkWidthFeet * scale;
 const rinkLength = rinkLengthFeet * scale;
 const cornerRadius = cornerRadiusFeet * scale;
 const goalLineFromBoards = 11 * scale;
+const blueLineFromGoalLine = 64 * scale;
 const goalLineFromCurve = goalLineFromCurveFeet * scale;
 const oneFoot = scale;
 
@@ -75,4 +76,26 @@ ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
 ctx.closePath();
 
 ctx.fillStyle = 'red';
+ctx.fill();
+
+// draw top blue line
+ctx.beginPath();  
+ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+ctx.closePath();
+
+ctx.fillStyle = 'blue';
+ctx.fill();
+
+// draw bottom blue line
+ctx.beginPath();
+ctx.moveTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+ctx.closePath();
+
+ctx.fillStyle = 'blue';
 ctx.fill();
