@@ -56,7 +56,6 @@ ctx.beginPath();
 ctx.moveTo(goalLineFromCurve, goalLineFromBoards)
 ctx.lineTo(rinkWidth - goalLineFromCurve, goalLineFromBoards);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -66,7 +65,6 @@ ctx.beginPath();
 ctx.moveTo(goalLineFromCurve, rinkLength - goalLineFromBoards)
 ctx.lineTo(rinkWidth - goalLineFromCurve, rinkLength - goalLineFromBoards);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -78,18 +76,16 @@ ctx.lineTo(rinkLength, rinkLength / 2 - oneFoot / 2);
 ctx.lineTo(rinkLength, rinkLength / 2 + oneFoot / 2);
 ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
 ctx.closePath();
-
 ctx.fillStyle = 'red';
 ctx.fill();
 
 // draw top blue line
-ctx.beginPath();  
+ctx.beginPath();
 ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
 ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
 ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
 ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
 ctx.closePath();
-
 ctx.fillStyle = 'blue';
 ctx.fill();
 
@@ -100,7 +96,6 @@ ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + 
 ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
 ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
 ctx.closePath();
-
 ctx.fillStyle = 'blue';
 ctx.fill();
 
@@ -108,7 +103,6 @@ ctx.fill();
 ctx.beginPath();
 ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -117,7 +111,6 @@ ctx.stroke();
 ctx.beginPath();
 ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -126,7 +119,6 @@ ctx.stroke();
 ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -135,7 +127,6 @@ ctx.stroke();
 ctx.beginPath();
 ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
@@ -144,7 +135,6 @@ ctx.stroke();
 ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
 ctx.closePath();
-
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
