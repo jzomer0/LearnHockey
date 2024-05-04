@@ -158,6 +158,39 @@ ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 
 ctx.fillStyle = lineRed;
 ctx.fill();
 
+// draw faceoff marks (top left)
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
 // draw hash marks (top left circle)
 ctx.beginPath();
 ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
@@ -204,6 +237,39 @@ ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
 ctx.fillStyle = lineRed;
 ctx.fill();
+
+// draw faceoff marks (top right)
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
 
 // draw hash marks (top right circle)
 ctx.beginPath();
@@ -252,6 +318,39 @@ ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLi
 ctx.fillStyle = lineRed;
 ctx.fill();
 
+// draw faceoff marks (bottom left)
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
 // draw hash marks (bottom left circle)
 ctx.beginPath();
 ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
@@ -298,6 +397,39 @@ ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
 ctx.fillStyle = lineRed;
 ctx.fill();
+
+// draw faceoff marks (bottom right)
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
 
 // draw hash marks (bottom right circle)
 ctx.beginPath();
