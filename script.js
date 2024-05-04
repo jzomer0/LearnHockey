@@ -25,6 +25,8 @@ const goalLineFromCurve = goalLineFromCurveFeet * scale;
 const zoneDotsFromGoalLine = 20 * scale;
 const zoneDotsFromBoards = 20.5 * scale;
 const circleRadius = 15 * scale;
+const hashMarksFromBoards = 3.5 * scale;
+const hashMarksLength = 2 * scale;
 const oneFoot = scale;
 const oneInch = scale / 12;
 
@@ -115,9 +117,75 @@ ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
 
+// draw hash marks (top left circle)
+ctx.beginPath();
+ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
 // draw top right circle;
 ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+// draw hash marks (top right circle)
+ctx.beginPath();
+ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
 ctx.closePath();
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
@@ -131,9 +199,75 @@ ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
 ctx.stroke();
 
+// draw hash marks (bottom left circle)
+ctx.beginPath();
+ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
 // draw bottom right circle;
 ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+// draw hash marks (bottom right circle)
+ctx.beginPath();
+ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+ctx.closePath();
+ctx.strokeStyle = 'red';
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
 ctx.closePath();
 ctx.strokeStyle = 'red';
 ctx.lineWidth = oneInch * 2;
