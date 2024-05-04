@@ -22,6 +22,9 @@ const cornerRadius = cornerRadiusFeet * scale;
 const goalLineFromBoards = 11 * scale;
 const blueLineFromGoalLine = 64 * scale;
 const goalLineFromCurve = goalLineFromCurveFeet * scale;
+const zoneDotsFromGoalLine = 20 * scale;
+const zoneDotsFromBoards = 20.5 * scale;
+const circleRadius = 15 * scale;
 const oneFoot = scale;
 
 // set canvas size
@@ -99,3 +102,48 @@ ctx.closePath();
 
 ctx.fillStyle = 'blue';
 ctx.fill();
+
+// draw centre circle;
+ctx.beginPath();
+ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// draw top left circle;
+ctx.beginPath();
+ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// draw top right circle;
+ctx.beginPath();
+ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// draw bottom left circle;
+ctx.beginPath();
+ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// draw bottom right circle;
+ctx.beginPath();
+ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+ctx.closePath();
+
+ctx.strokeStyle = 'red';
+ctx.lineWidth = 2;
+ctx.stroke();
