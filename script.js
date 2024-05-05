@@ -13,12 +13,13 @@ const ctx = canvas.getContext('2d');
 const maxWidth = window.innerWidth;
 const maxHeight = window.innerHeight;
 
-// set scale
+// dimensions
 const rinkWidthFeet = 85;
 const rinkLengthFeet = 200;
 const cornerRadiusFeet = 28;
 const highResFactor = 2;            // NOTE: 10 looks better zoomed-in
 
+// set scale
 const scaleWidth = window.innerWidth / rinkWidthFeet;
 const scaleHeight = window.innerHeight / rinkLengthFeet;
 // max scale that fits
@@ -55,461 +56,482 @@ const cssHeight = rinkLengthFeet * Math.min(scaleWidth, scaleHeight);
 canvas.style.width = `${cssWidth}px`;
 canvas.style.height = `${cssHeight}px`;
 
+// draw rink
+drawRink(ctx);
+
+function drawRink(ctx) {
+    drawIce(ctx);
+    drawLines(ctx);
+    drawCircles(ctx);
+    drawDetails(ctx);
+    drawCreases(ctx);
+}
+
 // draw ice (background)
-ctx.beginPath();
-ctx.moveTo(cornerRadius, 0);                                                            // top left corner
-ctx.lineTo(rinkWidth - cornerRadius, 0);                           // top
-ctx.arcTo(rinkWidth, 0, rinkWidth, cornerRadius, cornerRadius);                       // top right corner
-ctx.lineTo(rinkWidth, rinkLength - cornerRadius);                   // right
-ctx.arcTo(rinkWidth, rinkLength, rinkWidth - cornerRadius, rinkLength, cornerRadius);   // bottom right corner
-ctx.lineTo(cornerRadius, rinkLength);                                // bottom
-ctx.arcTo(0, rinkLength, 0, rinkLength - cornerRadius, cornerRadius);                     // bottom left corner
-ctx.lineTo(0, cornerRadius);                                        // left
-ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius);                                         // top left corner
-ctx.closePath();
-ctx.fillStyle = white;
-ctx.fill();
+function drawIce(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(cornerRadius, 0);                                                            // top left corner
+    ctx.lineTo(rinkWidth - cornerRadius, 0);                           // top
+    ctx.arcTo(rinkWidth, 0, rinkWidth, cornerRadius, cornerRadius);                       // top right corner
+    ctx.lineTo(rinkWidth, rinkLength - cornerRadius);                   // right
+    ctx.arcTo(rinkWidth, rinkLength, rinkWidth - cornerRadius, rinkLength, cornerRadius);   // bottom right corner
+    ctx.lineTo(cornerRadius, rinkLength);                                // bottom
+    ctx.arcTo(0, rinkLength, 0, rinkLength - cornerRadius, cornerRadius);                     // bottom left corner
+    ctx.lineTo(0, cornerRadius);                                        // left
+    ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius);                                         // top left corner
+    ctx.closePath();
+    ctx.fillStyle = white;
+    ctx.fill();
+}
 
-// Calculate the x-coordinates for the intersection points
-const xOffset = Math.sqrt(Math.pow(cornerRadius, 2) - Math.pow(goalLineFromBoards, 2));
+function drawLines(ctx) {
+    // Calculate the x-coordinates for the intersection points
+    const xOffset = Math.sqrt(Math.pow(cornerRadius, 2) - Math.pow(goalLineFromBoards, 2));
 
-// draw top goal line
-ctx.beginPath();
-ctx.moveTo(goalLineFromCurve, goalLineFromBoards)
-ctx.lineTo(rinkWidth - goalLineFromCurve, goalLineFromBoards);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw top goal line
+    ctx.beginPath();
+    ctx.moveTo(goalLineFromCurve, goalLineFromBoards)
+    ctx.lineTo(rinkWidth - goalLineFromCurve, goalLineFromBoards);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw bottom goal line
-ctx.beginPath();
-ctx.moveTo(goalLineFromCurve, rinkLength - goalLineFromBoards)
-ctx.lineTo(rinkWidth - goalLineFromCurve, rinkLength - goalLineFromBoards);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw bottom goal line
+    ctx.beginPath();
+    ctx.moveTo(goalLineFromCurve, rinkLength - goalLineFromBoards)
+    ctx.lineTo(rinkWidth - goalLineFromCurve, rinkLength - goalLineFromBoards);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw red line
-ctx.beginPath();
-ctx.moveTo(0, rinkLength / 2 - oneFoot / 2);
-ctx.lineTo(rinkLength, rinkLength / 2 - oneFoot / 2);
-ctx.lineTo(rinkLength, rinkLength / 2 + oneFoot / 2);
-ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
-ctx.closePath();
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw red line
+    ctx.beginPath();
+    ctx.moveTo(0, rinkLength / 2 - oneFoot / 2);
+    ctx.lineTo(rinkLength, rinkLength / 2 - oneFoot / 2);
+    ctx.lineTo(rinkLength, rinkLength / 2 + oneFoot / 2);
+    ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
+    ctx.closePath();
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-// draw top blue line
-ctx.beginPath();
-ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
-ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
-ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
-ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
-ctx.closePath();
-ctx.fillStyle = lineBlue;
-ctx.fill();
+    // draw top blue line
+    ctx.beginPath();
+    ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+    ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+    ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+    ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+    ctx.closePath();
+    ctx.fillStyle = lineBlue;
+    ctx.fill();
 
-// draw bottom blue line
-ctx.beginPath();
-ctx.moveTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
-ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
-ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
-ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
-ctx.closePath();
-ctx.fillStyle = lineBlue;
-ctx.fill();
+    // draw bottom blue line
+    ctx.beginPath();
+    ctx.moveTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+    ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+    ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+    ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+    ctx.closePath();
+    ctx.fillStyle = lineBlue;
+    ctx.fill();
+}
 
-// draw centre circle
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+function drawCircles(ctx) {
+    // draw centre circle
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw centre faceoff dot
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, rinkLength / 2, oneFoot / 2, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.fillStyle = lineBlue;
-ctx.fill();
+    // draw centre faceoff dot
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, rinkLength / 2, oneFoot / 2, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fillStyle = lineBlue;
+    ctx.fill();
 
-// draw ref circle
-ctx.beginPath();
-ctx.arc(rinkWidth, rinkLength / 2, refCircleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw ref circle
+    ctx.beginPath();
+    ctx.arc(rinkWidth, rinkLength / 2, refCircleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw top left circle
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw top left circle
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff dot (top left)
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw top right circle
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff marks (top left)
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw bottom left circle
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw bottom right circle
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
+}
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+function drawDetails(ctx) {
+    // draw faceoff dot (top left)
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff marks (top left)
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw hash marks (top left circle)
-ctx.beginPath();
-ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw hash marks (top left circle)
+    ctx.beginPath();
+    ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw top right circle
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff dot (top right)
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff marks (top right)
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff dot (top right)
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff marks (top right)
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw hash marks (top right circle)
-ctx.beginPath();
-ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw hash marks (top right circle)
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw bottom left circle
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff dot (bottom left)
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff marks (bottom left)
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff dot (bottom left)
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff marks (bottom left)
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw hash marks (bottom left circle)
-ctx.beginPath();
-ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw hash marks (bottom left circle)
+    ctx.beginPath();
+    ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw bottom right circle
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw faceoff dot (bottom right)
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw faceoff dot (bottom right)
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-// draw faceoff marks (bottom right)
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw faceoff marks (bottom right)
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw hash marks (bottom right circle)
-ctx.beginPath();
-ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    // draw hash marks (bottom right circle)
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-ctx.beginPath();
-ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw neutral zone faceoff dot (top left)
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw neutral zone faceoff dot (top left)
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-// draw neutral zone faceoff dot (top right)
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw neutral zone faceoff dot (top right)
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-// draw neutral zone faceoff dot (bottom left)
-ctx.beginPath();
-ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw neutral zone faceoff dot (bottom left)
+    ctx.beginPath();
+    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
 
-// draw neutral zone faceoff dot (bottom right)
-ctx.beginPath();
-ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-ctx.fillStyle = lineRed;
-ctx.fill();
+    // draw neutral zone faceoff dot (bottom right)
+    ctx.beginPath();
+    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    ctx.fillStyle = lineRed;
+    ctx.fill();
+}
 
-// draw top crease
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
-ctx.fillStyle = creaseBlue;
-ctx.fill();
+function drawCreases(ctx) {
+    // draw top crease
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+    ctx.fillStyle = creaseBlue;
+    ctx.fill();
 
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
 
-// draw bottom crease
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
-ctx.fillStyle = creaseBlue;
-ctx.fill();
+    // draw bottom crease
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
+    ctx.fillStyle = creaseBlue;
+    ctx.fill();
 
-ctx.beginPath();
-ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
-ctx.closePath();
-ctx.strokeStyle = lineRed;
-ctx.lineWidth = oneInch * 2;
-ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
+    ctx.closePath();
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
+    ctx.stroke();
+}
