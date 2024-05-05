@@ -487,3 +487,29 @@ ctx.beginPath();
 ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
 ctx.fillStyle = lineRed;
 ctx.fill();
+
+// draw top crease
+ctx.beginPath();
+ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+ctx.fillStyle = creaseBlue;
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+ctx.closePath();
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
+
+// draw bottom crease
+ctx.beginPath();
+ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
+ctx.fillStyle = creaseBlue;
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
+ctx.closePath();
+ctx.strokeStyle = lineRed;
+ctx.lineWidth = oneInch * 2;
+ctx.stroke();
