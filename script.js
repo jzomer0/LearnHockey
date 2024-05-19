@@ -535,3 +535,65 @@ function drawCreases(ctx) {
     ctx.lineWidth = oneInch * 2;
     ctx.stroke();
 }
+
+const circleBox = document.getElementById('circle-box');
+const rinkCanvas = document.getElementById('rink');
+
+// add event listeners
+const draggableCircles = document.querySelectorAll('.draggable-circle');
+draggableCircles.forEach(circle => {
+  circle.addEventListener('dragstart', event => {
+    // store initial position of circles
+    event.dataTransfer.setData('circle-position', circle.getBoundingClientRect());
+  });
+
+  circle.addEventListener('dragover', event => {
+    event.preventDefault();
+  });
+
+  circle.addEventListener('drop', event => {
+    event.preventDefault();
+
+    const circlePosition = event.dataTransfer.getData('circle-position');
+    const rinkRect = rinkCanvas.getBoundingClientRect();
+
+    // position of circle relative to rink
+    const circleX = event.clientX - rinkRect.left - parseInt(circlePosition.width / 2);
+    const circleY = event.clientY - rinkRect.top - parseInt(circlePosition.height / 2);
+
+    // if circle in rink
+    if (circleX < rinkRect.left || circleX > rinkRect.right || circleY < rinkRect.top || circleY > rinkRect.bottom) {
+      // reset cursor style
+      event.target.style.cursor = 'auto';
+      return;
+    }
+
+    // draw circle on rink
+    ctx.beginPath();
+    ctx.arc(circleX, circleY, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = circle.style.backgroundColor;
+    ctx.fill();
+
+    // remove original circle
+    circle.parentNode.removeChild(circle);
+  });
+
+  circle.addEventListener('dragend', event => {
+    // reset cursor style
+    event.target.style.cursor = 'auto';
+  });
+});
+
+rinkCanvas.addEventListener('dragenter', event => {
+  // cursor style indicating valid drop
+  event.target.style.cursor = 'pointer';
+});
+
+rinkCanvas.addEventListener('dragover', event => {
+  event.preventDefault();
+});
+
+rinkCanvas.addEventListener('dragleave', event => {
+  // reset cursor style
+  event.target.style.cursor = 'auto';
+});
