@@ -544,38 +544,36 @@ const draggableCircles = document.querySelectorAll('.draggable-circle');
 draggableCircles.forEach(circle => {
   circle.addEventListener('dragstart', event => {
     // store initial position of circles
-    event.dataTransfer.setData('circle-position', circle.getBoundingClientRect());
+    const rect = circle.getBoundingClientRect();
+    event.dataTransfer.setData('circle-offset', JSON.stringify({
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top,
+        color: circle.style.backgroundColor
+    }));
   });
 
-  circle.addEventListener('dragover', event => {
+  rinkCanvas.addEventListener('dragover', event => {
     event.preventDefault();
   });
 
-  circle.addEventListener('drop', event => {
+  rinkCanvas.addEventListener('drop', event => {
     event.preventDefault();
 
-    const circlePosition = event.dataTransfer.getData('circle-position');
+    const data = JSON.parse(event.dataTransfer.getData('circle-offset'));
     const rinkRect = rinkCanvas.getBoundingClientRect();
 
     // position of circle relative to rink
-    const circleX = event.clientX - rinkRect.left - parseInt(circlePosition.width / 2);
-    const circleY = event.clientY - rinkRect.top - parseInt(circlePosition.height / 2);
-
-    // if circle in rink
-    if (circleX < rinkRect.left || circleX > rinkRect.right || circleY < rinkRect.top || circleY > rinkRect.bottom) {
-      // reset cursor style
-      event.target.style.cursor = 'auto';
-      return;
-    }
+    const circleX = 2 * (event.clientX - rinkRect.left - data.offsetX + 20);
+    const circleY = 2 * (event.clientY - rinkRect.top - data.offsetY + 20);
 
     // draw circle on rink
     ctx.beginPath();
-    ctx.arc(circleX, circleY, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = circle.style.backgroundColor;
+    ctx.arc(circleX - 20, circleY - 20, 20, 0, 2 * Math.PI);        // radius of 20
+    ctx.fillStyle = data.color;
     ctx.fill();
 
     // remove original circle
-    circle.parentNode.removeChild(circle);
+    // circle.parentNode.removeChild(circle);
   });
 
   circle.addEventListener('dragend', event => {
