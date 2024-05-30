@@ -61,478 +61,340 @@ drawRink(ctx);
 
 function drawRink(ctx) {
     drawIce(ctx);
-    drawLines(ctx);
-    drawCircles(ctx);
-    drawDetails(ctx);
-    drawCreases(ctx);
+    lineDetails(ctx);       // calls drawLine()
+    circleDetails(ctx);     // calls drawCircle()
+    markingDetails(ctx);    // calls drawMarkings()
+    creaseDetails(ctx);     // calls drawCrease()
 }
 
 // draw ice (background)
 function drawIce(ctx) {
+    // set styles
+    ctx.fillStyle = white;
+
     ctx.beginPath();
     ctx.moveTo(cornerRadius, 0);                                                            // top left corner
-    ctx.lineTo(rinkWidth - cornerRadius, 0);                           // top
-    ctx.arcTo(rinkWidth, 0, rinkWidth, cornerRadius, cornerRadius);                       // top right corner
+    ctx.lineTo(rinkWidth - cornerRadius, 0);                            // top
+    ctx.arcTo(rinkWidth, 0, rinkWidth, cornerRadius, cornerRadius);                         // top right corner
     ctx.lineTo(rinkWidth, rinkLength - cornerRadius);                   // right
     ctx.arcTo(rinkWidth, rinkLength, rinkWidth - cornerRadius, rinkLength, cornerRadius);   // bottom right corner
-    ctx.lineTo(cornerRadius, rinkLength);                                // bottom
-    ctx.arcTo(0, rinkLength, 0, rinkLength - cornerRadius, cornerRadius);                     // bottom left corner
+    ctx.lineTo(cornerRadius, rinkLength);                               // bottom
+    ctx.arcTo(0, rinkLength, 0, rinkLength - cornerRadius, cornerRadius);                   // bottom left corner
     ctx.lineTo(0, cornerRadius);                                        // left
     ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius);                                         // top left corner
     ctx.closePath();
-    ctx.fillStyle = white;
     ctx.fill();
 }
 
-function drawLines(ctx) {
-    // Calculate the x-coordinates for the intersection points
-    const xOffset = Math.sqrt(Math.pow(cornerRadius, 2) - Math.pow(goalLineFromBoards, 2));
-
-    // draw top goal line
-    ctx.beginPath();
-    ctx.moveTo(goalLineFromCurve, goalLineFromBoards)
-    ctx.lineTo(rinkWidth - goalLineFromCurve, goalLineFromBoards);
-    ctx.closePath();
+function lineDetails(ctx) {
+    // set styles
     ctx.strokeStyle = lineRed;
     ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw bottom goal line
-    ctx.beginPath();
-    ctx.moveTo(goalLineFromCurve, rinkLength - goalLineFromBoards)
-    ctx.lineTo(rinkWidth - goalLineFromCurve, rinkLength - goalLineFromBoards);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw red line
-    ctx.beginPath();
-    ctx.moveTo(0, rinkLength / 2 - oneFoot / 2);
-    ctx.lineTo(rinkLength, rinkLength / 2 - oneFoot / 2);
-    ctx.lineTo(rinkLength, rinkLength / 2 + oneFoot / 2);
-    ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
-    ctx.closePath();
+    // draw lines
     ctx.fillStyle = lineRed;
-    ctx.fill();
+    drawLine('centre', ctx);
 
-    // draw top blue line
-    ctx.beginPath();
-    ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
-    ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
-    ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
-    ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
-    ctx.closePath();
     ctx.fillStyle = lineBlue;
-    ctx.fill();
+    drawLine('topBlue', ctx);
+    drawLine('bottomBlue', ctx);
 
-    // draw bottom blue line
+    drawLine('topGoal', ctx);
+    drawLine('bottomGoal', ctx);
+}
+
+function drawLine(location, ctx) {
     ctx.beginPath();
-    ctx.moveTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
-    ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
-    ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
-    ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
-    ctx.closePath();
+    if (location === 'centre') {
+        ctx.moveTo(0, rinkLength / 2 - oneFoot / 2);
+        ctx.lineTo(rinkLength, rinkLength / 2 - oneFoot / 2);
+        ctx.lineTo(rinkLength, rinkLength / 2 + oneFoot / 2);
+        ctx.lineTo(0, rinkLength / 2 + oneFoot / 2);
+    } else if (location === 'topBlue') {
+        ctx.moveTo(0, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+        ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine - oneFoot / 2);
+        ctx.lineTo(rinkLength, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+        ctx.lineTo(0, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2);
+    } else if (location === 'bottomBlue') {
+        ctx.moveTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+        ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine + oneFoot / 2);
+        ctx.lineTo(rinkLength, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+        ctx.lineTo(0, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2);
+    } else if (location === 'topGoal') {
+        ctx.moveTo(goalLineFromCurve, goalLineFromBoards);
+        ctx.lineTo(rinkWidth - goalLineFromCurve, goalLineFromBoards);
+    } else if (location === 'bottomGoal') {
+        ctx.moveTo(goalLineFromCurve, rinkLength - goalLineFromBoards);
+        ctx.lineTo(rinkWidth - goalLineFromCurve, rinkLength - goalLineFromBoards);
+    }
+    ctx.fill();
+    ctx.stroke();
+}
+
+function circleDetails(ctx) {
+    // set styles
+    ctx.strokeStyle = lineRed;
+    ctx.lineWidth = oneInch * 2;
     ctx.fillStyle = lineBlue;
-    ctx.fill();
+
+    // draw circles
+    drawCircle('centre', ctx);
+    drawCircle('refCircle', ctx);
+    drawCircle('topLeft', ctx);
+    drawCircle('topRight', ctx);
+    drawCircle('bottomLeft', ctx);
+    drawCircle('bottomRight', ctx);
 }
 
-function drawCircles(ctx) {
-    // draw centre circle
+function drawCircle(location, ctx) {
     ctx.beginPath();
-    ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
+    if (location === 'centre') {
+        // draw centre dot
+        ctx.arc(rinkWidth / 2, rinkLength / 2, oneFoot / 2, 0, 2 * Math.PI);
+        ctx.fill();
 
-    // draw centre faceoff dot
-    ctx.beginPath();
-    ctx.arc(rinkWidth / 2, rinkLength / 2, oneFoot / 2, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.fillStyle = lineBlue;
-    ctx.fill();
-
-    // draw ref circle
-    ctx.beginPath();
-    ctx.arc(rinkWidth, rinkLength / 2, refCircleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw top left circle
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw top right circle
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw bottom left circle
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw bottom right circle
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
+        ctx.arc(rinkWidth / 2, rinkLength / 2, circleRadius, 0, 2 * Math.PI);
+    } else if (location === 'refCircle') {
+        ctx.arc(rinkWidth, rinkLength / 2, refCircleRadius, 0, 2 * Math.PI);
+    } else if (location === 'topLeft') {
+        ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    } else if (location === 'topRight') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    } else if (location === 'bottomLeft') {
+        ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    } else if (location === 'bottomRight') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, circleRadius, 0, 2 * Math.PI);
+    } 
     ctx.stroke();
 }
 
-function drawDetails(ctx) {
-    // draw faceoff dot (top left)
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+function markingDetails(ctx) {
+    // set styles
     ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw faceoff marks (top left)
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
     ctx.strokeStyle = lineRed;
     ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
+    // draw neutral zone faceoff dots
+    drawMarkings('topLeftN', ctx);
+    drawMarkings('topRightN', ctx);
+    drawMarkings('bottomLeftN', ctx);
+    drawMarkings('bottomRightN', ctx);
 
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
+    // draw zone faceoff dots
+    drawMarkings('topLeft', ctx);
+    drawMarkings('topRight', ctx);
+    drawMarkings('bottomLeft', ctx);
+    drawMarkings('bottomRight', ctx);
 
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw hash marks (top left circle)
-    ctx.beginPath();
-    ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw faceoff dot (top right)
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw faceoff marks (top right)
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw hash marks (top right circle)
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw faceoff dot (bottom left)
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw faceoff marks (bottom left)
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw hash marks (bottom left circle)
-    ctx.beginPath();
-    ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw faceoff dot (bottom right)
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw faceoff marks (bottom right)
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw hash marks (bottom right circle)
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
-    ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
-
-    // draw neutral zone faceoff dot (top left)
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw neutral zone faceoff dot (top right)
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw neutral zone faceoff dot (bottom left)
-    ctx.beginPath();
-    ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
-
-    // draw neutral zone faceoff dot (bottom right)
-    ctx.beginPath();
-    ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
-    ctx.fillStyle = lineRed;
-    ctx.fill();
+    // draw faceoff markings
+    drawMarkings('topLeftFaceoffMarks', ctx);
+    drawMarkings('topLeftHashMarks', ctx);
+    drawMarkings('topRightFaceoffMarks', ctx);
+    drawMarkings('topRightHashMarks', ctx);
+    drawMarkings('bottomLeftFaceoffMarks', ctx);
+    drawMarkings('bottomLeftHashMarks', ctx);
+    drawMarkings('bottomRightFaceoffMarks', ctx);
+    drawMarkings('bottomRightHashMarks', ctx);
 }
 
-function drawCreases(ctx) {
-    // draw top crease
+function drawMarkings(location, ctx) {
     ctx.beginPath();
-    ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+    // draw neutral zone faceoff dots
+    if (location === 'topLeftN') {
+        ctx.arc(zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'topRightN') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + blueLineFromGoalLine + oneFoot / 2 + 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'bottomLeftN') {
+        ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'bottomRightN') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - blueLineFromGoalLine - oneFoot / 2 - 5 * oneFoot, oneFoot, 0, 2 * Math.PI);
+    }
+    // draw zone faceoff dots
+    else if (location === 'topLeft') {
+        ctx.arc(zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'topRight') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, goalLineFromBoards + zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'bottomLeft') {
+        ctx.arc(zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    } else if (location === 'bottomRight') {
+        ctx.arc(rinkWidth - zoneDotsFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine, oneFoot, 0, 2 * Math.PI);
+    }
+    // draw faceoff markings
+    else if (location === 'topLeftFaceoffMarks') {
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+    } else if (location === 'topLeftHashMarks') {
+        ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(hashMarksFromBoards + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(zoneDotsFromBoards + circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    } else if (location === 'topRightFaceoffMarks') {
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, goalLineFromBoards + zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+    } else if (location === 'topRightHashMarks') {
+        ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - hashMarksFromBoards, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, goalLineFromBoards + zoneDotsFromGoalLine + oneFoot * 1.5);
+    } else if (location === 'bottomLeftFaceoffMarks') {
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+    } else if (location === 'bottomLeftHashMarks') {
+        ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(hashMarksFromBoards + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(zoneDotsFromBoards + circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(zoneDotsFromBoards + circleRadius + hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    } else if (location === 'bottomRightFaceoffMarks') {
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards + 4 * oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 2 * oneFoot);
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards + oneFoot, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + 6 * oneFoot);
+        ctx.stroke();
+
+        ctx.beginPath();
+    } else if (location === 'bottomRightHashMarks') {
+        ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - hashMarksFromBoards, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - hashMarksFromBoards - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine + oneFoot * 1.5);
+
+        ctx.moveTo(rinkWidth - zoneDotsFromBoards - circleRadius, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5)
+        ctx.lineTo(rinkWidth - zoneDotsFromBoards - circleRadius - hashMarksLength, rinkLength - goalLineFromBoards - zoneDotsFromGoalLine - oneFoot * 1.5);
+    }
+    ctx.fill();
+    ctx.stroke();
+}
+
+function creaseDetails(ctx) {
+    // set styles
     ctx.fillStyle = creaseBlue;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
-    ctx.closePath();
     ctx.strokeStyle = lineRed;
     ctx.lineWidth = oneInch * 2;
-    ctx.stroke();
 
-    // draw bottom crease
+    // draw creases
+    drawCrease('top', ctx);
+    drawCrease('bottom', ctx);
+}
+
+function drawCrease(position, ctx) {
     ctx.beginPath();
-    ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
-    ctx.fillStyle = creaseBlue;
+    if (position === 'top') {
+        ctx.arc(rinkWidth / 2, goalLineFromBoards, 6 * oneFoot, 0, Math.PI);
+    } else if (position === 'bottom') {
+        ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
+    }
     ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(rinkWidth / 2, rinkLength - goalLineFromBoards, 6 * oneFoot, Math.PI, 2 * Math.PI);
-    ctx.closePath();
-    ctx.strokeStyle = lineRed;
-    ctx.lineWidth = oneInch * 2;
     ctx.stroke();
 }
 
