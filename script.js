@@ -398,10 +398,54 @@ function drawCrease(position, ctx) {
     ctx.stroke();
 }
 
+const squareBox = document.getElementById('square-box');
 const circleBox = document.getElementById('circle-box');
 const rinkCanvas = document.getElementById('rink');
 
 // add event listeners
+const draggableSquares = document.querySelectorAll('.draggable-square');
+draggableSquares.forEach(square => {
+    square.addEventListener('dragstart', event => {
+        // store initial position of squares
+        const rect = square.getBoundingClientRect();
+        event.dataTransfer.setData('square-offset', JSON.stringify({
+            offsetX: event.clientX - rect.left,
+            offsetY: event.clientY - rect.top,
+            color: square.style.backgroundColor
+        }));
+    });
+
+    rinkCanvas.addEventListener('dragover', event => {
+        event.preventDefault();
+    });
+
+    rinkCanvas.addEventListener('drop', event => {
+        event.preventDefault();
+        const data = JSON.parse(event.dataTransfer.getData('square-offset'));
+        const rinkRect = rinkCanvas.getBoundingClientRect();
+
+        // position of square relative to rink
+        const squareX = 2 * (event.clientX - rinkRect.left - data.offsetX + 20);
+        const squareY = 2 * (event.clientY - rinkRect.top - data.offsetY + 20);
+
+        // draw square on rink
+        ctx.beginPath();
+        ctx.moveTo(squareX - 20, squareY - 20);
+        ctx.lineTo(squareX + 20, squareY - 20);
+        ctx.lineTo(squareX + 20, squareY + 20);
+        ctx.lineTo(squareX - 20, squareY + 20);
+        ctx.fillStyle = data.color;
+        ctx.fill();
+
+        // remove original square
+        // square.parentNode.removeChild(square);
+    });
+    square.addEventListener('dragend', event => {
+        // reset cursor style
+        event.target.style.cursor = 'auto';
+    });
+});
+
 const draggableCircles = document.querySelectorAll('.draggable-circle');
 draggableCircles.forEach(circle => {
   circle.addEventListener('dragstart', event => {
