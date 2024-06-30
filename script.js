@@ -448,56 +448,54 @@ draggableSquares.forEach(square => {
 
 const draggableCircles = document.querySelectorAll('.draggable-circle');
 draggableCircles.forEach(circle => {
-  circle.addEventListener('dragstart', event => {
-    // store initial position of circles
-    const rect = circle.getBoundingClientRect();
-    event.dataTransfer.setData('circle-offset', JSON.stringify({
-        offsetX: event.clientX - rect.left,
-        offsetY: event.clientY - rect.top,
-        color: circle.style.backgroundColor
-    }));
-  });
+    circle.addEventListener('dragstart', event => {
+        // store initial position of circles
+        const rect = circle.getBoundingClientRect();
+        event.dataTransfer.setData('circle-offset', JSON.stringify({
+            offsetX: event.clientX - rect.left,
+            offsetY: event.clientY - rect.top,
+            color: circle.style.backgroundColor
+        }));
+    });
 
-  rinkCanvas.addEventListener('dragover', event => {
-    event.preventDefault();
-  });
+    rinkCanvas.addEventListener('dragover', event => {
+        event.preventDefault();
+    });
 
-  rinkCanvas.addEventListener('drop', event => {
-    event.preventDefault();
+    rinkCanvas.addEventListener('drop', event => {
+        event.preventDefault();
+        const data = JSON.parse(event.dataTransfer.getData('circle-offset'));
+        const rinkRect = rinkCanvas.getBoundingClientRect();
 
-    const data = JSON.parse(event.dataTransfer.getData('circle-offset'));
-    const rinkRect = rinkCanvas.getBoundingClientRect();
+        // position of circle relative to rink
+        const circleX = 2 * (event.clientX - rinkRect.left - data.offsetX + 20);
+        const circleY = 2 * (event.clientY - rinkRect.top - data.offsetY + 20);
 
-    // position of circle relative to rink
-    const circleX = 2 * (event.clientX - rinkRect.left - data.offsetX + 20);
-    const circleY = 2 * (event.clientY - rinkRect.top - data.offsetY + 20);
+        // draw circle on rink
+        ctx.beginPath();
+        ctx.arc(circleX - 20, circleY - 20, 20, 0, 2 * Math.PI);        // radius of 20
+        ctx.fillStyle = data.color;
+        ctx.fill();
 
-    // draw circle on rink
-    ctx.beginPath();
-    ctx.arc(circleX - 20, circleY - 20, 20, 0, 2 * Math.PI);        // radius of 20
-    ctx.fillStyle = data.color;
-    ctx.fill();
-
-    // remove original circle
-    // circle.parentNode.removeChild(circle);
-  });
-
-  circle.addEventListener('dragend', event => {
-    // reset cursor style
-    event.target.style.cursor = 'auto';
-  });
+        // remove original circle
+        // circle.parentNode.removeChild(circle);
+    });
+    circle.addEventListener('dragend', event => {
+        // reset cursor style
+        event.target.style.cursor = 'auto';
+    });
 });
 
 rinkCanvas.addEventListener('dragenter', event => {
-  // cursor style indicating valid drop
-  event.target.style.cursor = 'pointer';
+    // cursor style indicating valid drop
+    event.target.style.cursor = 'pointer';
 });
 
 rinkCanvas.addEventListener('dragover', event => {
-  event.preventDefault();
+    event.preventDefault();
 });
 
 rinkCanvas.addEventListener('dragleave', event => {
-  // reset cursor style
-  event.target.style.cursor = 'auto';
+    // reset cursor style
+    event.target.style.cursor = 'auto';
 });
