@@ -425,8 +425,8 @@ draggableSquares.forEach(square => {
         const rinkRect = rinkCanvas.getBoundingClientRect();
 
         // position of square relative to rink
-        const squareX = 2 * (event.clientX - rinkRect.left - data.offsetX + 20);
-        const squareY = 2 * (event.clientY - rinkRect.top - data.offsetY + 20);
+        const squareX = 2 * (event.clientX - rinkRect.left - data.offsetX + 10);
+        const squareY = 2 * (event.clientY - rinkRect.top - data.offsetY + 10);
 
         // draw square on rink
         ctx.beginPath();

@@ -31,9 +31,8 @@ body, html {
   }
   
   .draggable-square {
-    width: 30px;
-    height: 30px;
-    /* border-radius: 50%; */
+    width: 20px;
+    height: 20px;
     cursor: grab;
   }
   
@@ -63,8 +62,8 @@ body, html {
   }
   
   .draggable-circle {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     cursor: grab;
   }
